@@ -1,21 +1,20 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import { useRef } from "react"
 import { BsSearch } from "react-icons/bs"
+import useGameQueryStore from "../store"
 
-interface Props {
-    onSearch: (searchText: string) => void
-}
-
-const SearchInput = ({ onSearch }: Props) => {
+const SearchInput = () => {
     // useRef is a hook that returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
     // ref doesn't trigger re-render
     const ref = useRef<HTMLInputElement>(null)
+    // the only dependency is setSearchText
+    const setSearchText = useGameQueryStore((s) => s.setSearchText)
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault()
                 if (ref.current) {
-                    onSearch(ref.current.value)
+                    setSearchText(ref.current.value)
                 }
             }}
         >
